@@ -1,5 +1,5 @@
 'use strict';
-require('dotenv').config();
+const dotenv = require('dotenv').config();
 const express = require('express');
 const mongo = require('mongodb');
 const mongoose = require('mongoose');
@@ -27,8 +27,9 @@ app.listen(port, function() {
   console.log(`Listening on port ${port}`);
 });
 
-const uri = process.env.MONGO_URI;
-mongoose.connect(uri, {
+// const uri = process.env.MONGO_URI;
+// console.log(uri);
+mongoose.connect("mongodb+srv://new_user_1:redball2020@cluster0.9sps0.mongodb.net/myFirstDatabase?retryWrites=true&w=majority", {
   useNewUrlParser: true,
   useUnifiedTopology: true,
   serverSelectionTimeoutMS: 5000
