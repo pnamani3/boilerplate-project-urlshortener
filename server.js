@@ -35,17 +35,17 @@ mongoose.connect("mongodb+srv://new_user_1:redball2020@cluster0.9sps0.mongodb.ne
   serverSelectionTimeoutMS: 5000
 });
 
-const connection_management= mongoose.connection;
-connection_management.on('error', console.error.bind(console, 'connection error:'));
-connection_management.once('open',() => {
+const connection= mongoose.connection;
+connection.on('error', console.error.bind(console, 'connection error:'));
+connection.once('open',() => {
   console.log("MongoDB databse connection established success");
 });
 
 const Schema = mongoose.Schema;
 
-const urlSchema = new mongoose.Schema({
-  originalUrl: String,
-  shortUrl: String
+const urlSchema = new Schema({
+  original_url: String,
+  short_url: String
 });
 const URL = mongoose.model('URL', urlSchema);
 
@@ -60,22 +60,22 @@ app.post('/api/shorturl/new', async function(req, res) {
   } else {
     try {
       let findOne = await URL.findOne({
-        originalUrl: url
+        original_url: url
       });
       if (findOne) {
         res.json({
-          originalUrl: findOne.originalUrl,
-          shortUrl: findOne.shortUrl
+          original_url: findOne.original_url,
+          short_url: findOne.short_url
         });
       } else {
-        fineOne = new URL({
-          originalUrl: url,
-          shortUrl: urlCode
+        findOne = new URL({
+          original_url: url,
+          short_url: urlCode
         });
         await findOne.save();
         res.json({
-          originalUrl: findOne.originalUrl,
-          shortUrl: findOne.shortUrl
+          original_url: findOne.original_url,
+          short_url: findOne.short_url
         });
       }
     } catch(err) {
@@ -88,10 +88,10 @@ app.post('/api/shorturl/new', async function(req, res) {
 app.get('/api/shorturl/:short_url?', async function(req,res) {
   try {
     const urlParams = await URL.findOne({
-      shortUrl: req.params.shortUrl
+      short_url: req.params.short_url
     })
     if(urlParams) {
-      return res.redirect(urlParams.originalUrl);
+      return res.redirect(urlParams.original_url);
     } else {
       return res.status(404).json('No URL found');
     }
