@@ -2,7 +2,6 @@
 
 var express = require('express');
 var mongo = require('mongodb');
-// var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 
 var cors = require('cors');
@@ -18,10 +17,7 @@ var port = process.env.PORT || 3000;
 app.use(cors());
 
 /** this project needs to parse POST bodies **/
-// // you should mount the body-parser here
-// app.use(bodyParser.urlencoded({
-//   extended: false
-// }));
+// you should mount the body-parser here
 
 app.use('/public', express.static(process.cwd() + '/public'));
 
@@ -35,12 +31,13 @@ app.get("/api/hello", function (req, res) {
   res.json({greeting: 'hello API'});
 });
 
+
 app.listen(port, function () {
   console.log('Node.js listening ...');
 });
 
 /* Database Connection */
-let uri = 'mongodb+srv://new_user_1:redball2020@cluster0.9sps0.mongodb.net/myFirstDatabase?retryWrites=true&w=majority';
+let uri = 'mongodb+srv://new_user_1:redball2020@cluster0.9sps0.mongodb.net/myFirstDatabase?retryWrites=true&w=majority'
 mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 
 let urlSchema = new mongoose.Schema({
@@ -52,7 +49,7 @@ let Url = mongoose.model('Url', urlSchema)
 
 let bodyParser = require('body-parser')
 let responseObject = {}
-app.post('/api/shorturl/new', bodyParser.urlencoded({ extended: false }) , (request, response) => {
+app.post('/api/shorturl/', bodyParser.urlencoded({ extended: false }) , (request, response) => {
   let inputUrl = request.body['url']
   
   let urlRegex = new RegExp(/[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)?/gi)
